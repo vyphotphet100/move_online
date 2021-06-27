@@ -56,5 +56,6 @@ $("#do-mission").click(function () {
 
     if (missionDto.type == 'CAPCHA')
         location.href = 'http://olalink.co/yDl91E';
-    location.href = 'do-mission.html';
+    else
+        location.href = 'do-mission.html';
 });

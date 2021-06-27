@@ -59,3 +59,28 @@ $("#do-mission").click(function () {
     else
         location.href = 'do-mission.html';
 });
+
+function view_ads() {
+    let url = 'https://www.google.com/';
+    window_tab = window.open(url);
+    $(this).fadeOut()
+
+    if (typeof window_tab == 'undefined' || window_tab == null) {
+        alert('Error Looks like windows doesnt open at your device. Please reload this page.')
+    }
+    else if (window_tab.closed === false) {
+        var interval = setInterval(function () {
+            if (window_tab.closed === true) {
+                document.title = 'You have closed the tab!';
+                clearInterval(interval);
+            } else if (time_counter > 0) {
+                // 
+            } else if (time_counter === 0) {
+                clearInterval(interval)
+                // $.ajax({
+                    
+                // });
+            }
+        }, 1000);
+    }
+};

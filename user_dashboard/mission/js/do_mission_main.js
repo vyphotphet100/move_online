@@ -2,7 +2,10 @@ function doMission() {
     // get mission id 
     var missionId = connecter.getCookie('missionId');
     var missionDto = MissionRequest.findOne(missionId);
-    if (missionDto.httpStatus == 'OK' && missionDto.type == 'CAPCHA' && document.referrer != 'http://olalink.co/') {
+    if (missionDto.httpStatus == 'OK' &&
+        missionDto.type == 'CAPCHA' &&
+        document.referrer != 'http://olalink.co/') {
+            
         alert('Thực hiện nhiệm vụ không thành công.');
         location.href = 'index.html';
         return;

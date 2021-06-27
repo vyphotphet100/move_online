@@ -114,4 +114,27 @@ class MissionRequest {
             }
         }).responseJSON;
     }
+
+    static doMission(missionId) {
+        return $.ajax({
+            url: connecter.baseUrlAPI + '/api/mission/do_mission/' + missionId,
+            type: 'POST',
+            async: false,
+            headers: { 'Authorization': 'Token ' + connecter.getCookie('tokenCode'), 
+                       'Requested-site':  location.href},
+            contentType: 'application/json',
+            success: function(result) {
+                return result;
+            },
+            error: function(error) {
+                alert(error.responseJSON.message);
+                if (error.responseJSON.message.toLowerCase().includes('access') &&
+                    error.responseJSON.message.toLowerCase().includes('denied')) {
+                    connecter.logout();
+                    window.location.href = connecter.basePathAfterUrl + "/login/index.html";
+                }
+                return error;
+            }
+        }).responseJSON;
+    }
 }

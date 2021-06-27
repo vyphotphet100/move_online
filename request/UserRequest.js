@@ -117,22 +117,22 @@ class UserRequest {
         }).responseJSON;
     }
 
-    static checkIn() {
-        return $.ajax({
-            url: connecter.baseUrlAPI + '/api/user/check_in',
-            type: 'POST',
-            async: false,
-            headers: { 'Authorization': 'Token ' + connecter.getCookie('tokenCode') },
-            contentType: 'application/json',
-            success: function(result) {
-                return result;
-            },
-            error: function(error) {
-                alert(error.responseJSON.message);
-                return error;
-            }
-        }).responseJSON;
-    }
+    // static checkIn() {
+    //     return $.ajax({
+    //         url: connecter.baseUrlAPI + '/api/user/check_in',
+    //         type: 'POST',
+    //         async: false,
+    //         headers: { 'Authorization': 'Token ' + connecter.getCookie('tokenCode') },
+    //         contentType: 'application/json',
+    //         success: function(result) {
+    //             return result;
+    //         },
+    //         error: function(error) {
+    //             alert(error.responseJSON.message);
+    //             return error;
+    //         }
+    //     }).responseJSON;
+    // }
 
     static getCurrentUser() {
         return $.ajax({

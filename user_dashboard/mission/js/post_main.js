@@ -52,13 +52,6 @@ function main() {
 }
 
 $("#do-mission").click(function () {
-    if (missionDto.type == 'DIEMDANH') {
-        var userDto = UserRequest.checkIn();
-        alert(userDto.message);
-        if (userDto.httpStatus == 'OK') {
-            location.href = "index.html";
-        }
-    } else if (missionDto.type == 'CAPCHA') {
-        location.href = 'http://olalink.co/yDl91E';
-    }
+    connecter.setCookie('missionId', id, 1);
+    location.href = 'do-mission.html';
 });

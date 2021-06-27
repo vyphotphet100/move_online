@@ -78,7 +78,7 @@
     <!-- Nav Item - User Information -->
     <li class="nav-item dropdown no-arrow">
         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
+            <span class="mr-2 d-none d-lg-inline text-gray-600 small" id="fullname">Douglas McGee</span>
             <img class="img-profile rounded-circle" src="../../common/img/undraw_profile.svg">
         </a>
         <!-- Dropdown - User Information -->
@@ -96,5 +96,6 @@
 </ul>
 <script>
     var userDto = UserRequest.getCurrentUser();
-    document.getElementsByClassName('mr-2 d-none d-lg-inline text-gray-600 small')[0].innerText = userDto.fullname;
+    document.getElementById('fullname').innerText = userDto.fullname;
+    document.getElementById('fullname').style.cssText = 'font-family: Times New Roman;';
 </script>

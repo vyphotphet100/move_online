@@ -1,14 +1,9 @@
 var urlParams = new URLSearchParams(window.location.search);
 var id = urlParams.get('id');
 var missionDto = MissionRequest.findOne(id);
-if (missionDto.type == 'CAPCHA') {
-    if (document.referrer == 'http://olalink.co/yDl91E')
-        connecter.setCookie('capcha', 'done');
-    else
-        connecter.setCookie('capcha', 'null');
-}
+
 // script for all page
-$(function() {
+$(function () {
     // load silde bar and top bar
     $("#accordionSidebar").load("../../common/sidebar.html");
     $("#topbar").load("../../common/topbar.html", main);
@@ -56,7 +51,7 @@ function main() {
     getPost();
 }
 
-$("#do-mission").click(function() {
+$("#do-mission").click(function () {
     if (missionDto.type == 'DIEMDANH') {
         var userDto = UserRequest.checkIn();
         alert(userDto.message);
@@ -64,6 +59,6 @@ $("#do-mission").click(function() {
             location.href = "index.html";
         }
     } else if (missionDto.type == 'CAPCHA') {
-
+        location.href = 'http://olalink.co/yDl91E';
     }
 });

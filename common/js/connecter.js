@@ -8,7 +8,7 @@ class connecter {
 
     static baseUrlAPI = "http://localhost:8083";
     static baseUrl = 'http://localhost:80';
-    static basePathAfterUrl = "/move_up";
+    static basePathAfterUrl = "/move_online";
 
     static authorization() {
         var userDtoTmp = new UserDTOtmp();

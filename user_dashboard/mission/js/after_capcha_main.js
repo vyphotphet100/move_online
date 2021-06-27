@@ -5,4 +5,4 @@ else {
     alert('Xác nhận Capcha không thành công.');
 }
 
-location.href = 'http://localhost/move_up/user_dashboard/mission/index.html';
+location.href = 'http://vyphotphet.github.io/move_online/user_dashboard/mission/index.html';

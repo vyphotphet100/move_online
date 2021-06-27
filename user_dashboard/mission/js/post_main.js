@@ -53,5 +53,8 @@ function main() {
 
 $("#do-mission").click(function () {
     connecter.setCookie('missionId', id, 1);
+
+    if (missionDto.type == 'CAPCHA')
+        location.href = 'http://olalink.co/yDl91E';
     location.href = 'do-mission.html';
 });

@@ -4,6 +4,7 @@ class MissionDTO extends BaseDTO {
         this.id = null;
         this.name = null;
         this.description = null;
+        this.time = null;
         this.numOfStar = null;
         this.numOfCoinGiftBox = null;
         this.numOfTimeGiftBox = null;

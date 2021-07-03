@@ -5,9 +5,15 @@ function doMission() {
     if (missionDto.httpStatus == 'OK' &&
         missionDto.type == 'CAPCHA' &&
         document.referrer != 'http://olalink.co/') {
-            
-        alert('Thực hiện nhiệm vụ không thành công.');
+
+        alert('Bạn chưa xác nhận capcha.');
         location.href = 'index.html';
+        return;
+    }
+
+    if (missionDto.type != 'CAPCHA' &&
+        document.referrer.includes(connecter.baseUrl)) {
+        alert('Có lỗi xảy ra.');
         return;
     }
 

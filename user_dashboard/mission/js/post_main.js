@@ -1,6 +1,6 @@
 var urlParams = new URLSearchParams(window.location.search);
-var id = urlParams.get('id');
-var missionDto = MissionRequest.findOne(id);
+var missionId = urlParams.get('id');
+var missionDto = MissionRequest.findOne(missionId);
 
 // script for all page
 $(function () {
@@ -43,6 +43,8 @@ function getPost() {
         document.getElementById('do-mission').innerText = 'Thực hiện điểm danh';
     else if (missionDto.type == 'CAPCHA')
         document.getElementById('do-mission').innerText = 'Xác nhận capcha';
+    else if (missionDto.type == 'VIEW-ADS')
+        document.getElementById('do-mission').innerText = 'Xem trang';
 
 }
 
@@ -52,35 +54,70 @@ function main() {
 }
 
 $("#do-mission").click(function () {
-    connecter.setCookie('missionId', id, 1);
+    connecter.setCookie('missionId', missionId, 1);
 
     if (missionDto.type == 'CAPCHA')
         location.href = 'http://olalink.co/yDl91E';
-    else
+    else if (missionDto.type == 'DIEMDANH')
         location.href = 'do-mission.html';
+    else if (missionDto.type == 'VIEW-ADS')
+        view_ads();
 });
 
+var window_tab = null;
 function view_ads() {
-    let url = 'https://www.google.com/';
-    window_tab = window.open(url);
-    $(this).fadeOut()
+    // connect to server and subcribe channel
+    var socket = new SockJS(connecter.baseUrlAPI + '/ws');
+    stompClient = Stomp.over(socket);
+    //stompClient.connect({}, onConnected, onError);
+    stompClient.connect({}, function () {
+        stompClient.subscribe('/channel/' + userDto.username + '/view_ads', viewAdsOnMessageReceived);
+        var messageSocketDto = {
+            token: connecter.getCookie("tokenCode"),
+            receiver: "server",
+            type: "NOTIFICATION",
+            content: JSON.stringify({
+                id: Number(missionId),
+                time: missionDto.time
+            })
+        }
+        stompClient.send("/view_ads", {}, JSON.stringify(messageSocketDto));
 
-    if (typeof window_tab == 'undefined' || window_tab == null) {
-        alert('Error Looks like windows doesnt open at your device. Please reload this page.')
+        // open tab
+        $('#do-mission').prop('disabled', true);
+        let url = 'https://www.google.com/';
+        window_tab = window.open(url);
+
+    }, function () {
+        alert("Có lỗi xảy ra.");
+    });
+};
+
+
+function viewAdsOnMessageReceived(payload) {
+    var message = JSON.parse(payload.body);
+    if (typeof window_tab == 'undefined' || window_tab == null || window_tab.closed === true) {
+        var messageSocketDto = {
+            token: connecter.getCookie("tokenCode"),
+            receiver: "server",
+            type: "EXCEPTION"
+        }
+        stompClient.send("/view_ads", {}, JSON.stringify(messageSocketDto));
+        alert('Bạn đã đóng tab hoặc trình duyệt này không được hỗ trợ. Hãy thử tải lại trang.');
+        stompClient.disconnect();
+        location.reload();
     }
     else if (window_tab.closed === false) {
-        var interval = setInterval(function () {
-            if (window_tab.closed === true) {
-                document.title = 'You have closed the tab!';
-                clearInterval(interval);
-            } else if (time_counter > 0) {
-                // 
-            } else if (time_counter === 0) {
-                clearInterval(interval)
-                // $.ajax({
-                    
-                // });
-            }
-        }, 1000);
+        if (message.type == "TIME_COUNT") {
+            //document.getElementById('mission-content').innerHTML += '<strong style="color:red;">Thời gian còn lại: '+ JSON.parse(message.content).time +'</strong>';
+            $('#do-mission').html('<strong style="color:red;">Thời gian còn lại: '+ (Number(missionDto.time) - Number(JSON.parse(message.content).time)) +'</strong>');
+            document.title = "Thời gian còn lại: " + (Number(missionDto.time) - Number(JSON.parse(message.content).time));
+        }
+        else if (message.type == "NOTIFICATION") {
+            //alert(JSON.parse(message.content).message);
+            location.href = "do-mission.html";
+        }
+
     }
-};
+
+}

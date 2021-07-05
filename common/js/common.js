@@ -53,7 +53,7 @@ $(function () {
     });
 });
 
-function viewAdsOnMessageReceived(payload) {
+function messageReceived(payload) {
     if (window.location.href.includes('/dashboard/index.html'))
         setUserData();
     sendStatus("ON_PAGE");
@@ -67,7 +67,7 @@ function listenFromServer() {
     stompClient = Stomp.over(socket);
     //stompClient.connect({}, onConnected, onError);
     stompClient.connect({}, function () {
-        stompClient.subscribe('/channel/' + userDto.username, viewAdsOnMessageReceived);
+        stompClient.subscribe('/channel/' + userDto.username, messageReceived);
 
     }, function () {
         alert("Có lỗi xảy ra.");

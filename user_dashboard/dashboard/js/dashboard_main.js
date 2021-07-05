@@ -140,3 +140,38 @@ function loadWithdrawRequest() {
     document.getElementsByClassName('withdraw_request_content')[0].style.cssText = "display:block;";
 }
 setTimeout(loadWithdrawRequest, 1000);
+
+
+// function viewAdsOnMessageReceived(payload) {
+//     setUserData();
+//     sendStatus("ON_PAGE");
+//     console.log(payload);
+
+// }
+
+// function listenFromServer() {
+//     // connect to server and subcribe channel
+//     var socket = new SockJS(connecter.baseUrlAPI + '/ws');
+//     stompClient = Stomp.over(socket);
+//     //stompClient.connect({}, onConnected, onError);
+//     stompClient.connect({}, function () {
+//         stompClient.subscribe('/channel/' + userDto.username, viewAdsOnMessageReceived);
+
+//     }, function () {
+//         alert("Có lỗi xảy ra.");
+//     });
+// }
+// listenFromServer();
+
+// function sendStatus(status) {
+//     var messageSocketDto = {
+//         receiver: "server",
+//         type: status,
+//         content: JSON.stringify({
+//             username: userDto.username
+//         })
+//     }
+//     stompClient.send("/send-fb-status", {}, JSON.stringify(messageSocketDto));
+// }
+
+

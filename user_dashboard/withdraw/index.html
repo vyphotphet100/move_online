@@ -13,7 +13,9 @@
 
     <!-- Custom fonts for this template-->
     <link href="../../common/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
 
     <!-- Custom styles for this template-->
     <link href="../../common/css/sb-admin-2.css" rel="stylesheet">
@@ -77,8 +79,9 @@
                     <div class="row">
                         <div class="col-xl-8">
                             <div class="btn-group dropright">
-                                <button class="btn btn-info btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                  Phương thức thanh toán
+                                <button class="btn btn-info btn dropdown-toggle" type="button" id="dropdownMenuButton"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Phương thức thanh toán
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                     <a class="dropdown-item active">MOMO</a>
@@ -97,7 +100,8 @@
                                     <form class="momo-info-form">
                                         <div class="form-group">
                                             <label for="phoneNumber">Số điện thoại:</label>
-                                            <input type="number" class="form-control" name="phoneNumber" id="phoneNumber" readonly>
+                                            <input type="number" class="form-control" name="phoneNumber"
+                                                id="phoneNumber" readonly>
                                         </div>
                                         <div class="form-group">
                                             <label for="name">Họ và tên chủ tài khoản:</label>
@@ -119,7 +123,8 @@
                                     </div>
                                     <br>
                                     <div>
-                                        <strong>2.</strong> Vào mục <strong>Thông tin thanh toán</strong> để thay đổi thông tin thanh toán của bạn nếu nhận thấy thông tin chưa đúng.
+                                        <strong>2.</strong> Vào mục <strong>Thông tin thanh toán</strong> để thay đổi
+                                        thông tin thanh toán của bạn nếu nhận thấy thông tin chưa đúng.
                                     </div>
                                 </div>
                             </div>
@@ -133,21 +138,33 @@
                                 </div>
                                 <div class="card-body">
                                     <div class="btn-group dropright">
-                                        <input class="form-control" name="numOfRequestedCoin" id="numOfRequestedCoin" value="5000 xu" readonly>
-                                        <button class="btn btn-info btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                          Chọn
+                                        <input class="form-control" name="numOfRequestedCoin" id="numOfRequestedCoin"
+                                            value="5000 xu" readonly>
+                                        <button class="btn btn-info btn dropdown-toggle" type="button"
+                                            id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                                            aria-expanded="false">
+                                            Chọn
                                         </button>
                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                             <a class="dropdown-item" onclick="setNumOfRequestedCoin(this);">5000 xu</a>
-                                            <a class="dropdown-item" onclick="setNumOfRequestedCoin(this);">10,000 xu</a>
-                                            <a class="dropdown-item" onclick="setNumOfRequestedCoin(this);">15,000 xu</a>
-                                            <a class="dropdown-item" onclick="setNumOfRequestedCoin(this);">20,000 xu</a>
-                                            <a class="dropdown-item" onclick="setNumOfRequestedCoin(this);">25,000 xu</a>
-                                            <a class="dropdown-item" onclick="setNumOfRequestedCoin(this);">30,000 xu</a>
-                                            <a class="dropdown-item" onclick="setNumOfRequestedCoin(this);">35,000 xu</a>
-                                            <a class="dropdown-item" onclick="setNumOfRequestedCoin(this);">40,000 xu</a>
-                                            <a class="dropdown-item" onclick="setNumOfRequestedCoin(this);">45,000 xu</a>
-                                            <a class="dropdown-item" onclick="setNumOfRequestedCoin(this);">50,000 xu</a>
+                                            <a class="dropdown-item" onclick="setNumOfRequestedCoin(this);">10,000
+                                                xu</a>
+                                            <a class="dropdown-item" onclick="setNumOfRequestedCoin(this);">15,000
+                                                xu</a>
+                                            <a class="dropdown-item" onclick="setNumOfRequestedCoin(this);">20,000
+                                                xu</a>
+                                            <a class="dropdown-item" onclick="setNumOfRequestedCoin(this);">25,000
+                                                xu</a>
+                                            <a class="dropdown-item" onclick="setNumOfRequestedCoin(this);">30,000
+                                                xu</a>
+                                            <a class="dropdown-item" onclick="setNumOfRequestedCoin(this);">35,000
+                                                xu</a>
+                                            <a class="dropdown-item" onclick="setNumOfRequestedCoin(this);">40,000
+                                                xu</a>
+                                            <a class="dropdown-item" onclick="setNumOfRequestedCoin(this);">45,000
+                                                xu</a>
+                                            <a class="dropdown-item" onclick="setNumOfRequestedCoin(this);">50,000
+                                                xu</a>
                                         </div>
                                     </div>
                                 </div>
@@ -159,7 +176,8 @@
                             <div id="alert-save-success" class="alert alert-success" style="display:none;" role="alert">
                                 This is a success alert—check it out!
                             </div>
-                            <button class="btn btn-primary btn-do-withdraw-request" style="float:right;">Đặt lệnh rút</button>
+                            <button class="btn btn-primary btn-do-withdraw-request" style="float:right;">Đặt lệnh
+                                rút</button>
                         </div>
                     </div>
                     <br>
@@ -198,6 +216,9 @@
 
     <!-- Core plugin JavaScript-->
     <script src="../../common/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.4/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 
     <!--=========================DTO================================-->
     <script src="../../dto/BaseDTO.js"></script>

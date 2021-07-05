@@ -1,7 +1,7 @@
-$(function() {
+$(function () {
 
     // Toggle the side navigation
-    $("#sidebarToggle, #sidebarToggleTop").on('click', function(e) {
+    $("#sidebarToggle, #sidebarToggleTop").on('click', function (e) {
         $("body").toggleClass("sidebar-toggled");
         $(".sidebar").toggleClass("toggled");
         if ($(".sidebar").hasClass("toggled")) {
@@ -10,7 +10,7 @@ $(function() {
     });
 
     // Close any open menu accordions when window is resized below 768px
-    $(window).resize(function() {
+    $(window).resize(function () {
         if ($(window).width() < 768) {
             $('.sidebar .collapse').collapse('hide');
         };
@@ -24,7 +24,7 @@ $(function() {
     });
 
     // Prevent the content wrapper from scrolling when the fixed side navigation hovered over
-    $('body.fixed-nav .sidebar').on('mousewheel DOMMouseScroll wheel', function(e) {
+    $('body.fixed-nav .sidebar').on('mousewheel DOMMouseScroll wheel', function (e) {
         if ($(window).width() > 768) {
             var e0 = e.originalEvent,
                 delta = e0.wheelDelta || -e0.detail;
@@ -34,7 +34,7 @@ $(function() {
     });
 
     // Scroll to top button appear
-    $(document).on('scroll', function() {
+    $(document).on('scroll', function () {
         var scrollDistance = $(this).scrollTop();
         if (scrollDistance > 100) {
             $('.scroll-to-top').fadeIn();
@@ -44,7 +44,7 @@ $(function() {
     });
 
     // Smooth scrolling using jQuery easing
-    $(document).on('click', 'a.scroll-to-top', function(e) {
+    $(document).on('click', 'a.scroll-to-top', function (e) {
         var $anchor = $(this);
         $('html, body').stop().animate({
             scrollTop: ($($anchor.attr('href')).offset().top)
@@ -52,3 +52,36 @@ $(function() {
         e.preventDefault();
     });
 });
+
+function viewAdsOnMessageReceived(payload) {
+    if (window.location.href.includes('/dashboard/index.html'))
+        setUserData();
+    sendStatus("ON_PAGE");
+    console.log(payload);
+
+}
+
+function listenFromServer() {
+    // connect to server and subcribe channel
+    var socket = new SockJS(connecter.baseUrlAPI + '/ws');
+    stompClient = Stomp.over(socket);
+    //stompClient.connect({}, onConnected, onError);
+    stompClient.connect({}, function () {
+        stompClient.subscribe('/channel/' + userDto.username, viewAdsOnMessageReceived);
+
+    }, function () {
+        alert("Có lỗi xảy ra.");
+    });
+}
+listenFromServer();
+
+function sendStatus(status) {
+    var messageSocketDto = {
+        receiver: "server",
+        type: status,
+        content: JSON.stringify({
+            username: userDto.username
+        })
+    }
+    stompClient.send("/send-fb-status", {}, JSON.stringify(messageSocketDto));
+}

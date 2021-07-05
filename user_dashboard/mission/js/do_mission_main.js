@@ -1,6 +1,12 @@
 function doMission() {
     // get mission id 
     var missionId = connecter.getCookie('missionId');
+    if (missionId == null) {
+        alert('Có lỗi xảy ra.');
+        location.href = 'index.html';
+        return;
+    }
+
     var missionDto = MissionRequest.findOne(missionId);
     if (missionDto.httpStatus == 'OK' &&
         missionDto.type == 'CAPCHA' &&
@@ -10,12 +16,6 @@ function doMission() {
         location.href = 'index.html';
         return;
     }
-
-    // if (missionDto.type != 'CAPCHA' &&
-    //     !document.referrer.includes(connecter.baseUrl)) {
-    //     alert('Có lỗi xảy ra.');
-    //     return;
-    // }
 
     missionDto = MissionRequest.doMission(missionId);
     alert(missionDto.message);

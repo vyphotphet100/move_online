@@ -54,7 +54,7 @@ function main() {
 }
 
 $("#do-mission").click(function () {
-    connecter.setCookie('missionId', missionId, 1);
+    connecter.setCookie('missionId', missionId, 5);
 
     if (missionDto.type == 'CAPCHA')
         location.href = 'http://olalink.co/yDl91E';
@@ -114,8 +114,19 @@ function viewAdsOnMessageReceived(payload) {
             document.title = "Thời gian còn lại: " + (Number(missionDto.time) - Number(JSON.parse(message.content).time));
         }
         else if (message.type == "NOTIFICATION") {
-            //alert(JSON.parse(message.content).message);
-            location.href = "do-mission.html";
+            document.title = JSON.parse(message.content).message;
+            if (JSON.parse(message.content).message.includes('hoàn thành')) {
+                window.onfocus = function() {
+                    location.href = "do-mission.html";
+                }
+                $('#do-mission').prop('disabled', false);
+                $('#do-mission').text('Xác nhận hoàn thành nhiệm vụ.');
+                $("#do-mission").click(function () {
+                    location.href = "do-mission.html";
+                });
+
+            }
+            
         }
 
     }

@@ -85,7 +85,7 @@ function view_ads() {
 
         // open tab
         $('#do-mission').prop('disabled', true);
-        let url = 'https://www.google.com/';
+        let url = $('#ads-link').val();
         window_tab = window.open(url);
 
     }, function () {

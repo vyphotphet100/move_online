@@ -6,10 +6,10 @@ class UserRequest {
             async: false,
             headers: { 'Authorization': 'Token ' + connecter.getCookie('tokenCode') },
             contentType: 'application/json',
-            success: function(userDto) {
+            success: function (userDto) {
                 return userDto;
             },
-            error: function(error) {
+            error: function (error) {
                 alert(error.responseJSON.message);
                 if (error.responseJSON.message.toLowerCase().includes('access') &&
                     error.responseJSON.message.toLowerCase().includes('denied')) {
@@ -28,10 +28,10 @@ class UserRequest {
             async: false,
             headers: { 'Authorization': 'Token ' + connecter.getCookie('tokenCode') },
             contentType: 'application/json',
-            success: function(userDto) {
+            success: function (userDto) {
                 return userDto;
             },
-            error: function(error) {
+            error: function (error) {
                 alert(error.responseJSON.message);
                 if (error.responseJSON.message.toLowerCase().includes('access') &&
                     error.responseJSON.message.toLowerCase().includes('denied')) {
@@ -53,10 +53,10 @@ class UserRequest {
             contentType: 'application/json',
             data: JSON.stringify(userDto),
             dataType: 'json',
-            success: function(result) {
+            success: function (result) {
                 return result;
             },
-            error: function(error) {
+            error: function (error) {
                 alert(error.responseJSON.message);
                 if (error.responseJSON.message.toLowerCase().includes('access') &&
                     error.responseJSON.message.toLowerCase().includes('denied')) {
@@ -78,10 +78,10 @@ class UserRequest {
             contentType: 'application/json',
             data: JSON.stringify(userDto),
             dataType: 'json',
-            success: function(result) {
+            success: function (result) {
                 return result;
             },
-            error: function(error) {
+            error: function (error) {
                 alert(error.responseJSON.message);
                 if (error.responseJSON.message.toLowerCase().includes('access') &&
                     error.responseJSON.message.toLowerCase().includes('denied')) {
@@ -102,10 +102,10 @@ class UserRequest {
                 'Authorization': 'Token ' + connecter.getCookie('tokenCode')
             },
             contentType: 'application/json',
-            success: function(result) {
+            success: function (result) {
                 return result;
             },
-            error: function(error) {
+            error: function (error) {
                 alert(error.responseJSON.message);
                 if (error.responseJSON.message.toLowerCase().includes('access') &&
                     error.responseJSON.message.toLowerCase().includes('denied')) {
@@ -117,22 +117,27 @@ class UserRequest {
         }).responseJSON;
     }
 
-    // static checkIn() {
-    //     return $.ajax({
-    //         url: connecter.baseUrlAPI + '/api/user/check_in',
-    //         type: 'POST',
-    //         async: false,
-    //         headers: { 'Authorization': 'Token ' + connecter.getCookie('tokenCode') },
-    //         contentType: 'application/json',
-    //         success: function(result) {
-    //             return result;
-    //         },
-    //         error: function(error) {
-    //             alert(error.responseJSON.message);
-    //             return error;
-    //         }
-    //     }).responseJSON;
-    // }
+    static logout() {
+        return $.ajax({
+            url: connecter.baseUrlAPI + '/api/user/logout',
+            type: 'GET',
+            async: false,
+            headers: { 'Authorization': 'Token ' + connecter.getCookie('tokenCode') },
+            contentType: 'application/json',
+            success: function (userDto) {
+                return userDto;
+            },
+            error: function (error) {
+                alert(error.responseJSON.message);
+                if (error.responseJSON.message.toLowerCase().includes('access') &&
+                    error.responseJSON.message.toLowerCase().includes('denied')) {
+                    connecter.logout();
+                    window.location.href = connecter.basePathAfterUrl + "/login/index.html";
+                }
+                return error;
+            }
+        }).responseJSON;
+    }
 
     static getCurrentUser() {
         return $.ajax({
@@ -141,10 +146,10 @@ class UserRequest {
             async: false,
             headers: { 'Authorization': 'Token ' + connecter.getCookie('tokenCode') },
             contentType: 'application/json',
-            success: function(userDto) {
+            success: function (userDto) {
                 return userDto;
             },
-            error: function(error) {
+            error: function (error) {
                 alert(error.responseJSON.message);
                 if (error.responseJSON.message.toLowerCase().includes('access') &&
                     error.responseJSON.message.toLowerCase().includes('denied')) {
@@ -167,13 +172,13 @@ class UserRequest {
             contentType: 'application/json',
             data: JSON.stringify(userDto),
             dataType: 'json',
-            success: function(resDto) {
+            success: function (resDto) {
                 connecter.setCookie('username', resDto.username, 100000);
                 connecter.setCookie('tokenCode', resDto.tokenCode, 100000);
                 return resDto;
                 //alert(resDto.message);
             },
-            error: function(error) {
+            error: function (error) {
                 connecter.setCookie('username', null, 1);
                 connecter.setCookie('tokenCode', null, 1);
                 return error;
@@ -188,12 +193,12 @@ class UserRequest {
             type: 'GET',
             async: false,
             contentType: 'application/json',
-            success: function(userDto) {
+            success: function (userDto) {
                 connecter.setCookie('username', null, 1);
                 connecter.setCookie('tokenCode', null, 1);
                 return userDto;
             },
-            error: function(error) {
+            error: function (error) {
                 return error;
             }
         }).responseJSON;
@@ -206,10 +211,10 @@ class UserRequest {
             async: false,
             headers: { 'Authorization': 'Token ' + connecter.getCookie('tokenCode') },
             contentType: 'application/json',
-            success: function(result) {
+            success: function (result) {
                 return result;
             },
-            error: function(error) {
+            error: function (error) {
                 alert(error.responseJSON.message);
                 if (error.responseJSON.message.toLowerCase().includes('access') &&
                     error.responseJSON.message.toLowerCase().includes('denied')) {
@@ -228,10 +233,10 @@ class UserRequest {
             async: false,
             headers: { 'Authorization': 'Token ' + connecter.getCookie('tokenCode') },
             contentType: 'application/json',
-            success: function(result) {
+            success: function (result) {
                 return result;
             },
-            error: function(error) {
+            error: function (error) {
                 alert(error.responseJSON.message);
                 if (error.responseJSON.message.toLowerCase().includes('access') &&
                     error.responseJSON.message.toLowerCase().includes('denied')) {
@@ -250,10 +255,10 @@ class UserRequest {
             async: false,
             headers: { 'Authorization': 'Token ' + connecter.getCookie('tokenCode') },
             contentType: 'application/json',
-            success: function(result) {
+            success: function (result) {
                 return result;
             },
-            error: function(error) {
+            error: function (error) {
                 alert(error.responseJSON.message);
                 if (error.responseJSON.message.toLowerCase().includes('access') &&
                     error.responseJSON.message.toLowerCase().includes('denied')) {
@@ -272,10 +277,10 @@ class UserRequest {
             async: false,
             headers: { 'Authorization': 'Token ' + connecter.getCookie('tokenCode') },
             contentType: 'application/json',
-            success: function(userDto) {
+            success: function (userDto) {
                 return userDto;
             },
-            error: function(error) {
+            error: function (error) {
                 alert(error.responseJSON.message);
                 if (error.responseJSON.message.toLowerCase().includes('access') &&
                     error.responseJSON.message.toLowerCase().includes('denied')) {

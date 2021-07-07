@@ -1,5 +1,5 @@
 // script for all page
-$(function() {
+$(function () {
     // load silde bar and top bar
     $("#accordionSidebar").load("../../common/sidebar.html");
     $("#topbar").load("../../common/topbar.html", setActiveAtSideBar);
@@ -32,6 +32,13 @@ function setUserData() {
     document.getElementById('numOfTimeGiftBox').innerHTML = userDto.numOfTimeGiftBox + ' hộp';
     document.getElementById('numOfTravelledTime').innerHTML = userDto.numOfTravelledTime + ' phút';
     document.getElementById('numOfStar').innerHTML = userDto.numOfStar + ' sao';
+
+    if (userDto.facebookLink == null) {
+        $('#status').html('Bạn chưa cập nhật tài khoản làm việc. Hãy vào phần <a href="#"><strong>Thông tin cá nhân</strong></a> để thực hiện.');
+    }
+    else {
+        $('#status').html('Sẵn sàng làm việc.');
+    }
 }
 setUserData();
 
@@ -42,12 +49,20 @@ function copyReferralCode() {
 
 var timeOut = null;
 
+var oldStatus = $('#status').html();
+var oldCoinGilfBoxIcon = $('#coinGiftBoxIcon').html();
 function openCoinGiftBox() {
+    if ($('#status').html().includes('Bạn đã nhận được') == false &&
+        $('#status').html().includes('Bạn không còn') == false)
+        oldStatus = $('#status').html();
+    if ($('#coinGiftBoxIcon').html().includes('open-coin-gift-box') == false)
+        oldCoinGilfBoxIcon = $('#coinGiftBoxIcon').html();
     resetStatusBox();
     var giftBox = GiftBoxRequest.openCoinGiftBox();
     document.getElementById('status').innerHTML = giftBox.message;
     document.getElementById('statusBox').style.cssText = "border-left:.25rem solid #f30425 !important;";
-    document.getElementById('statusIcon').style.cssText = "color: blue;";
+    //document.getElementById('statusIcon').style.cssText = "color: blue;";
+    $('#coinGiftBoxIcon').html('<img src="image/open-coin-gift-box.gif" style="width: 60px; height: 60px;"/>');
 
     document.getElementById('numOfCoinBox').style.cssText = "border-left:.25rem solid #f30425 !important;";
     document.getElementById('numOfCoinIcon').style.cssText = "color: orange;";
@@ -61,6 +76,9 @@ function openCoinGiftBox() {
 }
 
 function openTimeGiftBox() {
+    if ($('#status').html().includes('Bạn đã nhận được') == false &&
+        $('#status').html().includes('Bạn không còn') == false)
+        oldStatus = $('#status').html();
     resetStatusBox();
     var giftBox = GiftBoxRequest.openTimeGiftBox();
     document.getElementById('status').innerHTML = giftBox.message;
@@ -80,18 +98,19 @@ function openTimeGiftBox() {
 
 function setTimeoutStatusBox() {
     clearTimeout(timeOut);
-    timeOut = setTimeout(function() {
+    timeOut = setTimeout(function () {
         resetStatusBox();
-    }, 2000);
+    }, 3000);
 }
 
 function resetStatusBox() {
-    document.getElementById('status').innerHTML = '';
+    document.getElementById('status').innerHTML = oldStatus;
     document.getElementById('statusBox').style.cssText = '';
     document.getElementById('statusIcon').style.cssText = "color: rgb(209, 209, 209);";
 
     document.getElementById('numOfCoinBox').style.cssText = '';
     document.getElementById('numOfCoinIcon').style.cssText = "color: rgb(209, 209, 209);";
+    $('#coinGiftBoxIcon').html(oldCoinGilfBoxIcon);
 
     document.getElementById('numOfTimeBox').style.cssText = '';
     document.getElementById('numOfTimeIcon').style.cssText = "color: rgb(209, 209, 209);";
@@ -141,37 +160,11 @@ function loadWithdrawRequest() {
 }
 setTimeout(loadWithdrawRequest, 1000);
 
-
-// function viewAdsOnMessageReceived(payload) {
-//     setUserData();
-//     sendStatus("ON_PAGE");
-//     console.log(payload);
-
-// }
-
-// function listenFromServer() {
-//     // connect to server and subcribe channel
-//     var socket = new SockJS(connecter.baseUrlAPI + '/ws');
-//     stompClient = Stomp.over(socket);
-//     //stompClient.connect({}, onConnected, onError);
-//     stompClient.connect({}, function () {
-//         stompClient.subscribe('/channel/' + userDto.username, viewAdsOnMessageReceived);
-
-//     }, function () {
-//         alert("Có lỗi xảy ra.");
-//     });
-// }
-// listenFromServer();
-
-// function sendStatus(status) {
-//     var messageSocketDto = {
-//         receiver: "server",
-//         type: status,
-//         content: JSON.stringify({
-//             username: userDto.username
-//         })
-//     }
-//     stompClient.send("/send-fb-status", {}, JSON.stringify(messageSocketDto));
-// }
-
-
+function checkStartupStatus() {
+    if (connecter.getCookie('fbStatus') == 'active') {
+        $('#status').html('Bạn đang online.');
+        $('#numOfTraversedTimeIcon').html('<img src="image/Hourglass_902x.gif" style="width: 40px; height: 40px;"/>');
+        $('#coinGiftBoxIcon').html('<img src="image/wait-coin-gift-box.gif" style="width: 40px; height: 40px;"/>');
+    }
+}
+checkStartupStatus();

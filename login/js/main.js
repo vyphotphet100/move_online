@@ -1,11 +1,11 @@
-(function($) {
+(function ($) {
     "use strict";
 
 
     /*==================================================================
     [ Focus input ]*/
-    $('.input100').each(function() {
-        $(this).on('blur', function() {
+    $('.input100').each(function () {
+        $(this).on('blur', function () {
             if ($(this).val().trim() != "") {
                 $(this).addClass('has-val');
             } else {
@@ -19,7 +19,7 @@
     [ Validate ]*/
     var input = $('.validate-input .input100');
 
-    $('.validate-form').on('submit', function() {
+    $('.validate-form').on('submit', function () {
         var check = true;
 
         for (var i = 0; i < input.length; i++) {
@@ -33,8 +33,8 @@
     });
 
 
-    $('.validate-form .input100').each(function() {
-        $(this).focus(function() {
+    $('.validate-form .input100').each(function () {
+        $(this).focus(function () {
             hideValidate(this);
         });
     });
@@ -64,18 +64,30 @@
     }
 
 
-    $('.login100-form-btn').click(function(e) {
+    function checkAutoLogin() {
+        if (connecter.getCookie('tokenCode') != 'null' &&
+            connecter.getCookie('tokenCode') != null &&
+            connecter.getCookie('username') != 'null' &&
+            connecter.getCookie('username') != null)
+            var userDto = UserRequest.getCurrentUser();
+            if (userDto != null && userDto.username == connecter.getCookie('username')) {
+                location.href = '../user_dashboard/dashboard/index.html';
+            }
+    }
+    checkAutoLogin();
+
+    $('.login100-form-btn').click(function (e) {
         document.getElementsByClassName('login100-form-btn')[0].style.cssText = 'display:none;';
         document.getElementsByClassName('loading')[0].style.cssText = 'display:block;';
 
         e.preventDefault();
         var data = {};
         var formData = $('.login100-form').serializeArray();
-        $.each(formData, function(i, v) {
+        $.each(formData, function (i, v) {
             data["" + v.name + ""] = v.value;
         });
 
-        setTimeout(function() {
+        setTimeout(function () {
             var userDto = UserRequest.login(data['username'], data['password']);
 
             if (userDto.httpStatus != 'OK') {
@@ -85,9 +97,9 @@
             }
             if (userDto.httpStatus == 'OK') {
                 if (userDto.roleCodes.includes('USER'))
-                    window.location.href = connecter.basePathAfterUrl + '/user_dashboard/dashboard';
+                    window.location.href = connecter.basePathAfterUrl + '/user_dashboard/dashboard/index.html';
                 else if (userDto.roleCodes.includes('ADMIN'))
-                    window.location.href = connecter.basePathAfterUrl + '/admin_dashboard/dashboard';
+                    window.location.href = connecter.basePathAfterUrl + '/admin_dashboard/dashboard/index.html';
             }
         }, 10);
 

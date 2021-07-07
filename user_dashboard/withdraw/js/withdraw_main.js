@@ -22,6 +22,11 @@ function setActiveAtSideBar() {
 function setUserInfo() {
     document.getElementById('numOfCoin').innerHTML = userDto.accountBalance + ' xu';
     var phoneNumber = userDto.momoPhoneNumber;
+    if (phoneNumber == null) {
+        alert('Bạn chưa bổ sung thông tin thanh toán. Xin mời bổ sung thông tin thanh toán.');
+        location.href = "../billing-info/index.html";
+        return;
+    }
     var momoDto = MomoRequest.findOne(phoneNumber);
     document.getElementById('phoneNumber').value = momoDto.phoneNumber;
     document.getElementById('name').value = momoDto.name;

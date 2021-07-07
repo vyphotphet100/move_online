@@ -54,10 +54,40 @@ $(function () {
 });
 
 function messageReceived(payload) {
-    if (window.location.href.includes('/dashboard/index.html'))
-        setUserData();
     sendStatus("ON_PAGE");
-    console.log(payload);
+
+    var receivedMessage = JSON.parse(payload.body);
+    console.log(receivedMessage.content);
+
+    if (receivedMessage.type == 'FB_ACTIVE') {
+        if (window.location.href.includes('/dashboard/index.html')) {
+            $('#status').html('Bạn đang online.');
+            $('#numOfTraversedTimeIcon').html('<img src="image/Hourglass_902x.gif" style="width: 40px; height: 40px;"/>');
+            $('#coinGiftBoxIcon').html('<img src="image/wait-coin-gift-box.gif" style="width: 40px; height: 40px;"/>');
+            
+        }
+        connecter.setCookie('fbStatus', 'active', 2);
+    } else if (receivedMessage.type == 'FB_INACTIVE') {
+        if (window.location.href.includes('/dashboard/index.html')) {
+            $('#status').html('Bạn đang offline.');
+            $('#numOfTraversedTimeIcon').html('<i class="fas fa-hourglass-end fa-2x text-300"></i>');
+            $('#coinGiftBoxIcon').html('<i class="fas fa-gift fa-2x text-300"></i>');
+            
+        }
+        connecter.setCookie('fbStatus', 'inactive', 2);
+    }
+
+
+
+    else if (receivedMessage.type == 'INCREASE_MINUTE') {
+        if (window.location.href.includes('/dashboard/index.html')) {
+            setUserData();
+
+            $('#numOfTraversedTimeIcon').html('<img src="image/Hourglass_902x.gif" style="width: 40px; height: 40px;"/>');
+            $('#coinGiftBoxIcon').html('<img src="image/wait-coin-gift-box.gif" style="width: 40px; height: 40px;"/>');
+            connecter.setCookie('fbStatus', 'active', 2);
+        }
+    }
 
 }
 
@@ -84,4 +114,12 @@ function sendStatus(status) {
         })
     }
     stompClient.send("/send-fb-status", {}, JSON.stringify(messageSocketDto));
+}
+
+function logout() {
+    connecter.setCookie('username', null, 1);
+    connecter.setCookie('tokenCode', null, 1);
+    var userDto = UserRequest.logout();
+    if (userDto.httpStatus == "OK")
+        location.href = '/move_online/login/index.html';
 }

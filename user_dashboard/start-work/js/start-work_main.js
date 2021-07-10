@@ -14,7 +14,8 @@ function checkStartWork() {
 
     if (id.trim() != '123456' || // CONFIRM
         !document.referrer.includes('facebook.com') ||
-        tokenCode == null) {
+        tokenCode == null ||
+        userDto.facebookLink == null || userDto.facebookLink == '') {
         alert('Xác nhận bắt đầu làm việc thất bại.');
         location.href = '../dashboard/index.html';
         return;

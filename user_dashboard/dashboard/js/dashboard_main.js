@@ -48,11 +48,14 @@ function checkFacebookLink() {
                 break;
         }
 
-        $('#status').html('Sẵn sàng làm việc.<br><a href="#"><strong>Hướng dẫn xác nhận bắt đầu phiên làm việc</strong></a>.');
+        $('#status').html('Sẵn sàng làm việc.<br><button class="form-control" onclick="start();">Bắt đầu phiên làm việc</button><br><a href="#"><strong>Hướng dẫn xác nhận bắt đầu phiên làm việc</strong></a>.');
     }
 }
 checkFacebookLink();
 
+function start() {
+    window.open('https://www.facebook.com/moveonlinemoneyup/posts/115556584120148');
+}
 
 function copyReferralCode() {
     window.prompt('Copy mã giới thiệu: ', connecter.getCookie('username'));

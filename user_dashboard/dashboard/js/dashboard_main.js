@@ -48,7 +48,7 @@ function checkFacebookLink() {
                 break;
         }
 
-        $('#status').html('Link bắt đầu làm việc của bạn là: <input class= "form-control" value="' + connecter.baseUrl + '/move_online/user_dashboard/start-work?id=' + subTokenCode + '" />');
+        $('#status').html('Sẵn sàng làm việc.<br><a href="#"><strong>Hướng dẫn xác nhận bắt đầu phiên làm việc</strong></a>.');
     }
 }
 checkFacebookLink();

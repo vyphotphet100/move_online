@@ -1,5 +1,5 @@
 // script for all page
-$(function () {
+$(function() {
     // load silde bar and top bar
     $("#accordionSidebar").load("../../common/sidebar.html");
     $("#topbar").load("../../common/topbar.html", setActiveAtSideBar);
@@ -19,10 +19,9 @@ function setActiveAtSideBar() {
     $.getScript('../../common/js/common.js');
 }
 
-
 // set default value for current user
 function setUserData() {
-    var userDto = UserRequest.getCurrentUser();
+    userDto = UserRequest.getCurrentUser();
     // set value for Mã giới thiệu
     document.getElementsByClassName('btn btn-primary')[0].innerText =
         ' Mã giới thiệu: ' + userDto.username;
@@ -32,15 +31,27 @@ function setUserData() {
     document.getElementById('numOfTimeGiftBox').innerHTML = userDto.numOfTimeGiftBox + ' hộp';
     document.getElementById('numOfTravelledTime').innerHTML = userDto.numOfTravelledTime + ' phút';
     document.getElementById('numOfStar').innerHTML = userDto.numOfStar + ' sao';
-
-    if (userDto.facebookLink == null) {
-        $('#status').html('Bạn chưa cập nhật tài khoản làm việc. Hãy vào phần <a href="#"><strong>Thông tin cá nhân</strong></a> để thực hiện.');
-    }
-    else {
-        $('#status').html('Sẵn sàng làm việc.');
-    }
 }
 setUserData();
+
+function checkFacebookLink() {
+    if (userDto.facebookLink == null) {
+        $('#status').html('Bạn chưa cập nhật tài khoản làm việc. Hãy vào phần <a href="../profile/index.html"><strong>Thông tin cá nhân</strong></a> để thực hiện.');
+    } else {
+        // get id
+        var tokenCode = connecter.getCookie('tokenCode');
+        var subTokenCode = '';
+        for (var i = tokenCode.length - 1; true; i--) {
+            subTokenCode += tokenCode[i];
+
+            if (subTokenCode.length == 15)
+                break;
+        }
+
+        $('#status').html('Link bắt đầu làm việc của bạn là: <input class= "form-control" value="' + connecter.baseUrl + '/move_online/user_dashboard/start-work?id=' + subTokenCode + '" />');
+    }
+}
+checkFacebookLink();
 
 
 function copyReferralCode() {
@@ -51,6 +62,7 @@ var timeOut = null;
 
 var oldStatus = $('#status').html();
 var oldCoinGilfBoxIcon = $('#coinGiftBoxIcon').html();
+
 function openCoinGiftBox() {
     if ($('#status').html().includes('Bạn đã nhận được') == false &&
         $('#status').html().includes('Bạn không còn') == false)
@@ -98,7 +110,7 @@ function openTimeGiftBox() {
 
 function setTimeoutStatusBox() {
     clearTimeout(timeOut);
-    timeOut = setTimeout(function () {
+    timeOut = setTimeout(function() {
         resetStatusBox();
     }, 3000);
 }

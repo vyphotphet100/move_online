@@ -26,9 +26,9 @@ function checkStartWork() {
             sendStatus('FB_ACTIVE');
             alert('Xác nhận bắt đầu làm việc thành công.');
             clearInterval(interval);
-            history.back();
+            window.close();
         }
 
-    }, 1000);
+    }, 100);
 
 }

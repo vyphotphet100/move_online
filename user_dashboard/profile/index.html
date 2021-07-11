@@ -29,7 +29,7 @@
             <div class="row">
                 <div class="col-md-4">
                     <div class="profile-img">
-                        <img id="avatar" src="#" />
+                        <img id="avatar" width="200" height="200" src="#" />
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -123,6 +123,16 @@
                             </div>
                             <br>
                             <div class="row">
+                                <div class="col-md-5">
+                                    <label>Mã người giới thiệu bạn</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <input class="col-md-8 form-control" id="referrer-code" value="" style="display: inline-block;" />
+                                    <button class="col-md-3 form-control" id="confirm-referrer-code" style="display: inline-block; padding-left: 1px; padding-right:1px; font-size: 15px;">Xác nhận</button>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
                                 <div class="col-md-12">
                                     <button type="button" class="btn btn-success" style="float:right;" id="save">Lưu</button>
                                 </div>
@@ -184,25 +194,26 @@
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- Bootstrap core JavaScript-->
-        <script src="../../common/vendor/jquery/jquery.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Bootstrap core JavaScript-->
+    <script src="../../common/vendor/jquery/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
 
-        <!-- Core plugin JavaScript-->
-        <script src="../../common/vendor/jquery-easing/jquery.easing.min.js"></script>
+    <!-- Core plugin JavaScript-->
+    <script src="../../common/vendor/jquery-easing/jquery.easing.min.js"></script>
 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.4/sockjs.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.4/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 
-        <!--=========================DTO================================-->
-        <script src="../../dto/BaseDTO.js"></script>
-        <script src="../../dto/UserDTO.js"></script>
+    <!--=========================DTO================================-->
+    <script src="../../dto/BaseDTO.js"></script>
+    <script src="../../dto/UserDTO.js"></script>
 
-        <!--=========================Request================================-->
-        <script src="../../common/js/connecter.js"></script>
-        <script src="../../request/UserRequest.js"></script>
-        <script src="js/profile_main.js"></script>
+    <!--=========================Request================================-->
+    <script src="../../common/js/connecter.js"></script>
+    <script src="../../request/UserRequest.js"></script>
+    <script src="js/profile_main.js"></script>
 
 </body>
 

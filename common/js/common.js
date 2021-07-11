@@ -83,7 +83,13 @@ function messageReceived(payload) {
             $('#coinGiftBoxIcon').html('<img src="image/wait-coin-gift-box.gif" style="width: 40px; height: 40px;"/>');
             connecter.setCookie('fbStatus', 'active', 2);
         }
+    } else if (receivedMessage.type == 'INCREASE_COIN_GIFT_BOX') {
+        if (window.location.href.includes('/dashboard/index.html')) {
+            setUserData();
+            $('#status').html('Bạn đã nhận được 1 hộp quà xu.');
+        }
     }
+
 
 }
 

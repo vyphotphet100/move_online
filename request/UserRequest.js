@@ -346,14 +346,40 @@ class UserRequest {
         }).responseJSON;
     }
 
-    static addFacebookAccByPostLink(postLink, profileLink, pictureLink, facebookName) {
+    static saveFacebookAccByPostLink(postLink, profileLink, pictureLink, facebookName) {
         var userDto = new UserDTO();
         userDto.listRequest.push(postLink);
         userDto.listRequest.push(profileLink);
         userDto.listRequest.push(pictureLink);
         userDto.listRequest.push(facebookName);
         return $.ajax({
-            url: connecter.baseUrlAPI + '/api/user/add_facebook',
+            url: connecter.baseUrlAPI + '/api/user/save_facebook',
+            type: 'POST',
+            async: false,
+            headers: { 'Authorization': 'Token ' + connecter.getCookie('tokenCode') },
+            contentType: 'application/json',
+            data: JSON.stringify(userDto),
+            dataType: 'json',
+            success: function(resDto) {
+                return resDto;
+            },
+            error: function(error) {
+                alert(error.responseJSON.message);
+                if (error.responseJSON.message.toLowerCase().includes('access') &&
+                    error.responseJSON.message.toLowerCase().includes('denied')) {
+                    connecter.logout();
+                    window.location.href = connecter.basePathAfterUrl + "/login/index.html";
+                }
+                return error;
+            }
+        }).responseJSON;
+    }
+
+    static saveReferrerUser(referrerCode) {
+        var userDto = new UserDTO();
+        userDto.listRequest.push(referrerCode);
+        return $.ajax({
+            url: connecter.baseUrlAPI + '/api/user/save_referrer_user',
             type: 'POST',
             async: false,
             headers: { 'Authorization': 'Token ' + connecter.getCookie('tokenCode') },

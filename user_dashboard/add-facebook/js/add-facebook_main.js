@@ -42,7 +42,7 @@ $('#confirm').click(function() {
     $('#loading-gif').attr('style', 'display:inline-block;');
 
     setTimeout(function() {
-        var confirmUserDto = UserRequest.addFacebookAccByPostLink($('#input-step-2').val(), checkUserDto.listResult[0], checkUserDto.listResult[2], checkUserDto.listResult[1]);
+        var confirmUserDto = UserRequest.saveFacebookAccByPostLink($('#input-step-2').val(), checkUserDto.listResult[0], checkUserDto.listResult[2], checkUserDto.listResult[1]);
         if (confirmUserDto.httpStatus == 'OK') {
             $('#loading-gif').attr('style', 'display:none;');
             $('#announcement-content').text(confirmUserDto.message);

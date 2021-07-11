@@ -48,7 +48,7 @@ function checkFacebookLink() {
                 break;
         }
 
-        $('#status').html('Sẵn sàng làm việc.<br><button class="form-control" onclick="start();">Bắt đầu phiên làm việc</button><br><a href="#"><strong>Hướng dẫn xác nhận bắt đầu phiên làm việc</strong></a>.');
+        $('#status').html('Sẵn sàng làm việc.<br><button class="form-control" onclick="start();">Bắt đầu phiên làm việc</button><br><a href="../help/start-working-session.html"><strong>Hướng dẫn xác nhận bắt đầu phiên làm việc</strong></a>.');
     }
 }
 checkFacebookLink();

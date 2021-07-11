@@ -9,7 +9,15 @@ function loadUserInfo() {
     $('#phone-number').val(userDto.phoneNumber);
     $('#address').val(userDto.address);
     $('#facebook-name').val(userDto.facebookName);
-    $('#avatar').attr('src', userDto.picture);
+    if (userDto.picture != null && userDto.picture != "")
+        $('#avatar').attr('src', userDto.picture);
+    else
+        $('#avatar').attr('src', '../../common/img/undraw_profile.svg');
+    if (userDto.referrerUsername != null) {
+        $('#referrer-code').attr('readonly', true);
+        $('#referrer-code').val(userDto.referrerUsername);
+        $('#confirm-referrer-code').attr('style', 'display:none;');
+    }
 
 }
 
@@ -60,4 +68,18 @@ $('#ok-btn').click(function() {
 
 $('#change-facebook').click(function() {
     location.href = "../add-facebook/index.html";
+});
+
+$('#confirm-referrer-code').click(function() {
+    if ($('#referrer-code').val().trim() == '' || $('#referrer-code').val() == null) {
+        alert('Mã người giới thiệu không được bỏ trống.');
+        return;
+    }
+
+    var userDto = UserRequest.saveReferrerUser($('#referrer-code').val());
+    if (userDto.httpStatus == 'OK') {
+        $('#confirm-referrer-code').attr('style', 'display: none;');
+        $('#announcement-content').text(userDto.message);
+        $("#announcement").modal("show");
+    }
 });

@@ -21,7 +21,7 @@ function setActiveAtSideBar() {
 
 function setUserInfo() {
     document.getElementById('referenceCode').value = userDto.username;
-    document.getElementById('referenceLink').value = "http://localhost/move_online/login?referrer=" + userDto.username;
+    document.getElementById('referenceLink').value = "http://localhost/move_online/login/register.html?referrer=" + userDto.username;
 }
 
 function getReferredUser() {

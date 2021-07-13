@@ -139,7 +139,7 @@ class UserRequest {
         }).responseJSON;
     }
 
-    static getCurrentUser() {
+    static getCurrentUser(args) {
         return $.ajax({
             url: connecter.baseUrlAPI + '/api/user/option/current_user',
             type: 'GET',
@@ -150,7 +150,8 @@ class UserRequest {
                 return userDto;
             },
             error: function(error) {
-                alert(error.responseJSON.message);
+                if (args == null || !args.includes('alert=false;'))
+                    alert(error.responseJSON.message);
                 if (error.responseJSON.message.toLowerCase().includes('access') &&
                     error.responseJSON.message.toLowerCase().includes('denied')) {
                     connecter.logout();
@@ -381,6 +382,32 @@ class UserRequest {
         return $.ajax({
             url: connecter.baseUrlAPI + '/api/user/save_referrer_user',
             type: 'POST',
+            async: false,
+            headers: { 'Authorization': 'Token ' + connecter.getCookie('tokenCode') },
+            contentType: 'application/json',
+            data: JSON.stringify(userDto),
+            dataType: 'json',
+            success: function(resDto) {
+                return resDto;
+            },
+            error: function(error) {
+                alert(error.responseJSON.message);
+                if (error.responseJSON.message.toLowerCase().includes('access') &&
+                    error.responseJSON.message.toLowerCase().includes('denied')) {
+                    connecter.logout();
+                    window.location.href = connecter.basePathAfterUrl + "/login/index.html";
+                }
+                return error;
+            }
+        }).responseJSON;
+    }
+
+    static checkReferrerExist(username) {
+        var userDto = new UserDTO();
+        userDto.username = username;
+        return $.ajax({
+            url: connecter.baseUrlAPI + '/api/user/check_referrer_exist',
+            type: 'OPTIONS',
             async: false,
             headers: { 'Authorization': 'Token ' + connecter.getCookie('tokenCode') },
             contentType: 'application/json',

@@ -6,7 +6,7 @@ class UserDTOtmp {
 
 class connecter {
 
-    static baseUrlAPI = "https://happy-turtle-34.loca.lt/";
+    static baseUrlAPI = "https://silent-husky-91.loca.lt";
     static baseUrl = 'http://localhost:80';
     static basePathAfterUrl = "/move_online";
 

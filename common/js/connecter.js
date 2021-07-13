@@ -6,7 +6,7 @@ class UserDTOtmp {
 
 class connecter {
 
-    static baseUrlAPI = "https://574c8818d1f7.ngrok.io";
+    static baseUrlAPI = "https://happy-turtle-34.loca.lt/";
     static baseUrl = 'http://localhost:80';
     static basePathAfterUrl = "/move_online";
 

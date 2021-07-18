@@ -23,8 +23,17 @@ function setUserInfo() {
     document.getElementById('numOfCoin').innerHTML = userDto.accountBalance + ' xu';
     var phoneNumber = userDto.momoPhoneNumber;
     if (phoneNumber == null) {
-        alert('Bạn chưa bổ sung thông tin thanh toán. Xin mời bổ sung thông tin thanh toán.');
-        location.href = "../billing-info/index.html";
+        alert('Bạn chưa bổ sung thông tin thanh toán. Xin mời bổ sung thông tin thanh toán trước khi vào mục này.');
+        //location.href = "../billing-info/index.html";
+        setTimeout(function() {
+            var interval = setInterval(function() {
+                if ($('#announcement').is(':visible') == false) {
+                    location.href = '../billing-info/index.html';
+                    clearInterval(interval);
+                }
+            }, 1);
+        }, 1000);
+
         return;
     }
     var momoDto = MomoRequest.findOne(phoneNumber);
@@ -58,3 +67,13 @@ $('.btn-do-withdraw-request').click(function() {
     }
 
 });
+
+
+function alert(content) {
+    $('#announcement-content').html(content);
+    $('#announcement').modal('show');
+}
+
+function closeAnnouncement() {
+    $('#announcement').modal('hide');
+}

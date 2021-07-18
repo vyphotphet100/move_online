@@ -1,2 +1,5 @@
-- Sửa lỗi chưa thêm thông tin
-
+- Sửa nhiệm vụ Xem trang -> OK
+- Nhiệm vụ Xem trang: hiện thị thời gian xem trang -> OK
+- Sửa alert thành model announcement -> OK 
+- Xóa link sockJS ở các trang html -> OK 
+- Sửa cập nhật avatar -> OK

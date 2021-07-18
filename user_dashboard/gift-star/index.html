@@ -11,11 +11,14 @@
 
     <title>Hộp quà - Sao</title>
 
+    <div id="loading-div" style="position: fixed; left: 0px; top: 0px; width: 100%; height: 100%; z-index: 9999; background: center no-repeat #fff;">
+        <img src="../../common/loading2.gif" style="position: fixed; top: 50%; left: 50%;transform: translate(-50%, -50%);">
+    </div>
+    <script src="../../common/js/loading.js"></script>
+
     <!-- Custom fonts for this template-->
     <link href="../../common/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
     <!-- Custom styles for this template-->
     <link href="../../common/css/sb-admin-2.css" rel="stylesheet">
@@ -67,8 +70,9 @@
                                             </div>
                                             <div class="row no-gutters align-items-center">
                                                 <div class="col-auto">
-                                                    <div id='numOfCoinGiftBox'
-                                                        class="h5 mb-0 mr-3 font-weight-bold text-gray-800">0 hộp</div>
+                                                    <div id='numOfCoinGiftBox' class="h5 mb-0 mr-3 font-weight-bold text-gray-800">
+                                                        <img src="../../common/loading.gif" id="loading-gif" style="width:20px;height:20px;">
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -90,8 +94,9 @@
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                                 Hộp quà thời gian</div>
-                                            <div id='numOfTimeGiftBox' class="h5 mb-0 font-weight-bold text-gray-800">0
-                                                hộp</div>
+                                            <div id='numOfTimeGiftBox' class="h5 mb-0 font-weight-bold text-gray-800">
+                                                <img src="../../common/loading.gif" id="loading-gif" style="width:20px;height:20px;">
+                                            </div>
                                         </div>
                                         <div class="col-auto">
                                             <span id="timeGiftBoxIcon" style="color: rgb(22, 192, 0);">
@@ -111,7 +116,8 @@
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
                                                 Sao</div>
-                                            <div id='numOfStar' class="h5 mb-0 font-weight-bold text-gray-800">0 sao
+                                            <div id='numOfStar' class="h5 mb-0 font-weight-bold text-gray-800">
+                                                <img src="../../common/loading.gif" id="loading-gif" style="width:20px;height:20px;">
                                             </div>
                                         </div>
                                         <div class="col-auto">
@@ -213,6 +219,27 @@
         <i class="fas fa-angle-up"></i>
     </a>
 
+    <!-- Announcement modal-->
+    <div class="modal fade" id="announcement" tabindex="-1" aria-hidden="true" role="dialog">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Thông báo</h5>
+                </div>
+                <div class="modal-body">
+                    <div class="row g-3 needs-validation" novalidate>
+                        <div class="col-md-12 position-center" style="text-align: center;">
+                            <p id="announcement-content">Nội dung</p>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="form-control" id="ok-btn" onclick="closeAnnouncement();">OK</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Bootstrap core JavaScript-->
     <script src="../../common/vendor/jquery/jquery.min.js"></script>
     <script src="../../common/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -220,7 +247,6 @@
     <!-- Core plugin JavaScript-->
     <script src="../../common/vendor/jquery-easing/jquery.easing.min.js"></script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.4/sockjs.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 
     <!--=========================DTO================================-->

@@ -3,7 +3,7 @@ var missionId = urlParams.get('id');
 var missionDto = MissionRequest.findOne(missionId);
 
 // script for all page
-$(function () {
+$(function() {
     // load silde bar and top bar
     $("#accordionSidebar").load("../../common/sidebar.html");
     $("#topbar").load("../../common/topbar.html", main);
@@ -43,8 +43,20 @@ function getPost() {
         document.getElementById('do-mission').innerText = 'Thực hiện điểm danh';
     else if (missionDto.type == 'CAPCHA')
         document.getElementById('do-mission').innerText = 'Xác nhận capcha';
-    else if (missionDto.type == 'VIEW-ADS')
-        document.getElementById('do-mission').innerText = 'Xem trang';
+    else if (missionDto.type == 'VIEW-ADS') {
+        document.getElementById('do-mission').innerHTML = document.getElementById('do-mission').innerHTML.replace('Thực hiện', 'Xem trang');
+        document.getElementById('mission-content').innerHTML += '<br> Thời gian: <strong>' + missionDto.time + ' giây.</strong>';
+        $('#do-mission').prop('disabled', true);
+        $('#loading-gif').attr('style', 'display:block;');
+        var interval = setInterval(function() {
+            if (serverConnected) {
+                stompClient.subscribe('/channel/' + userDto.username + '/view_ads', viewAdsOnMessageReceived);
+                $('#do-mission').prop('disabled', false);
+                $('#loading-gif').attr('style', 'display:none;');
+                clearInterval(interval);
+            }
+        }, 500);
+    }
 
 }
 
@@ -53,7 +65,7 @@ function main() {
     getPost();
 }
 
-$("#do-mission").click(function () {
+$("#do-mission").click(function() {
     connecter.setCookie('missionId', missionId, 5);
 
     if (missionDto.type == 'CAPCHA')
@@ -65,13 +77,12 @@ $("#do-mission").click(function () {
 });
 
 var window_tab = null;
+var missionSucceeded = false;
+
 function view_ads() {
-    // connect to server and subcribe channel
-    var socket = new SockJS(connecter.baseUrlAPI + '/ws');
-    stompClient = Stomp.over(socket);
-    //stompClient.connect({}, onConnected, onError);
-    stompClient.connect({}, function () {
-        stompClient.subscribe('/channel/' + userDto.username + '/view_ads', viewAdsOnMessageReceived);
+    if (!missionSucceeded) {
+        // connect to server and subcribe channel
+        $('#do-mission').prop('disabled', true);
         var messageSocketDto = {
             token: connecter.getCookie("tokenCode"),
             receiver: "server",
@@ -84,13 +95,10 @@ function view_ads() {
         stompClient.send("/view_ads", {}, JSON.stringify(messageSocketDto));
 
         // open tab
-        $('#do-mission').prop('disabled', true);
         let url = $('#ads-link').val();
         window_tab = window.open(url);
+    }
 
-    }, function () {
-        alert("Có lỗi xảy ra.");
-    });
 };
 
 
@@ -103,32 +111,40 @@ function viewAdsOnMessageReceived(payload) {
             type: "EXCEPTION"
         }
         stompClient.send("/view_ads", {}, JSON.stringify(messageSocketDto));
-        alert('Bạn đã đóng tab hoặc trình duyệt này không được hỗ trợ. Hãy thử tải lại trang.');
-        stompClient.disconnect();
-        location.reload();
-    }
-    else if (window_tab.closed === false) {
+        alert('Bạn đã đóng tab hoặc trình duyệt này không được hỗ trợ. Hãy tải lại trang và thử lại.');
+        //stompClient.disconnect();
+        //location.reload();
+    } else if (window_tab.closed === false) {
         if (message.type == "TIME_COUNT") {
             //document.getElementById('mission-content').innerHTML += '<strong style="color:red;">Thời gian còn lại: '+ JSON.parse(message.content).time +'</strong>';
-            $('#do-mission').html('<strong style="color:red;">Thời gian còn lại: '+ (Number(missionDto.time) - Number(JSON.parse(message.content).time)) +'</strong>');
+            $('#do-mission').html('<strong style="color:red;">Thời gian còn lại: ' + (Number(missionDto.time) - Number(JSON.parse(message.content).time)) + '</strong>');
             document.title = "Thời gian còn lại: " + (Number(missionDto.time) - Number(JSON.parse(message.content).time));
-        }
-        else if (message.type == "NOTIFICATION") {
+        } else if (message.type == "NOTIFICATION") {
             document.title = JSON.parse(message.content).message;
             if (JSON.parse(message.content).message.includes('hoàn thành')) {
+                missionSucceeded = true;
                 window.onfocus = function() {
                     location.href = "do-mission.html";
                 }
                 $('#do-mission').prop('disabled', false);
                 $('#do-mission').text('Xác nhận hoàn thành nhiệm vụ.');
-                $("#do-mission").click(function () {
+                $("#do-mission").click(function() {
                     location.href = "do-mission.html";
                 });
 
             }
-            
+
         }
 
     }
 
+}
+
+function alert(content) {
+    $('#announcement-content').html(content);
+    $('#announcement').modal('show');
+}
+
+function closeAnnouncement() {
+    $('#announcement').modal('hide');
 }

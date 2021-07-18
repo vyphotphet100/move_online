@@ -80,33 +80,43 @@
     }
     checkAutoLogin();
 
-    $('.login100-form-btn').click(function(e) {
-        document.getElementsByClassName('login100-form-btn')[0].style.cssText = 'display:none;';
-        document.getElementsByClassName('loading')[0].style.cssText = 'display:block;';
-
-        e.preventDefault();
-        var data = {};
-        var formData = $('.login100-form').serializeArray();
-        $.each(formData, function(i, v) {
-            data["" + v.name + ""] = v.value;
-        });
-
-        setTimeout(function() {
-            var userDto = UserRequest.login(data['username'], data['password']);
-
-            if (userDto.httpStatus != 'OK') {
-                alert(userDto.message);
-                document.getElementsByClassName('loading')[0].style.cssText = 'display:none;';
-                document.getElementsByClassName('login100-form-btn')[0].style.cssText = 'display:block;';
-            }
-            if (userDto.httpStatus == 'OK') {
-                if (userDto.roleCodes.includes('USER'))
-                    window.location.href = connecter.basePathAfterUrl + '/user_dashboard/dashboard/index.html';
-                else if (userDto.roleCodes.includes('ADMIN'))
-                    window.location.href = connecter.basePathAfterUrl + '/admin_dashboard/dashboard/index.html';
-            }
-        }, 10);
-
-    });
+    // $('.login100-form-btn').click(function(e) {
+    //     login();
+    // });
 
 })(jQuery);
+
+document.getElementById("login-form").addEventListener("keydown", function(event) {
+    if (event.key.toLowerCase() == 'enter')
+        login();
+});
+
+function login() {
+    document.getElementsByClassName('login100-form-btn')[0].style.cssText = 'display:none;';
+    document.getElementsByClassName('loading')[0].style.cssText = 'display:block;';
+
+    setTimeout(function() {
+        var userDto = UserRequest.login($('#username').val(), $('#password').val());
+
+        if (userDto.httpStatus != 'OK') {
+            alert(userDto.message);
+            document.getElementsByClassName('loading')[0].style.cssText = 'display:none;';
+            document.getElementsByClassName('login100-form-btn')[0].style.cssText = 'display:block;';
+        }
+        if (userDto.httpStatus == 'OK') {
+            if (userDto.roleCodes.includes('USER'))
+                window.location.href = connecter.basePathAfterUrl + '/user_dashboard/dashboard/index.html';
+            else if (userDto.roleCodes.includes('ADMIN'))
+                window.location.href = connecter.basePathAfterUrl + '/admin_dashboard/dashboard/index.html';
+        }
+    }, 10);
+}
+
+function alert(content) {
+    $('#announcement-content').html(content);
+    $('#announcement').modal('show');
+}
+
+function closeAnnouncement() {
+    $('#announcement').modal('hide');
+}

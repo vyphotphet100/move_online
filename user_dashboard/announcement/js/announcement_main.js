@@ -37,6 +37,7 @@ function loadAnnouncement() {
         announcementCardTmp = announcementCardTmp.replace('HREF', 'post.html?id=' + announcementDtos[i].id);
         announcementBox.innerHTML += announcementCardTmp;
     }
+    $('#loading-gif').attr('style', 'display: none;');
 }
 
 function main() {

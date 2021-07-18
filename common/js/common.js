@@ -61,51 +61,89 @@ function messageReceived(payload) {
 
     if (receivedMessage.type == 'FB_ACTIVE') {
         if (window.location.href.includes('/dashboard/index.html')) {
-            $('#status').html('Bạn đang Online.');
-            $('#numOfTraversedTimeIcon').html('<img src="image/Hourglass_902x.gif" style="width: 40px; height: 40px;"/>');
-            $('#coinGiftBoxIcon').html('<img src="image/wait-coin-gift-box.gif" style="width: 40px; height: 40px;"/>');
-
+            $('#status').html('Bạn đang Online. Bạn sẽ nhận được <strong>Hộp quà xu</strong> trong thời gian Online của mình.');
+            $('#numOfTraversedTimeIcon-old').attr('style', 'display:none;');
+            $('#numOfTraversedTimeIcon-new').attr('style', 'display:block;');
+            $('#coinGiftBoxIcon-old').attr('style', 'display:none;');
+            $('#coinGiftBoxIcon-new').attr('style', 'display:block;');
         }
-        connecter.setCookie('fbStatus', 'active', 2);
+        connecter.setCookie('fbStatus', 'active', 3);
     } else if (receivedMessage.type == 'FB_INACTIVE') {
         if (window.location.href.includes('/dashboard/index.html')) {
             $('#status').html('Bạn đang Offline.');
-            $('#numOfTraversedTimeIcon').html('<i class="fas fa-hourglass-end fa-2x text-300"></i>');
-            $('#coinGiftBoxIcon').html('<i class="fas fa-gift fa-2x text-300"></i>');
+            $('#numOfTraversedTimeIcon-old').attr('style', 'display:block;');
+            $('#numOfTraversedTimeIcon-new').attr('style', 'display:none;');
+            //$('#numOfTraversedTimeIcon').html('<i class="fas fa-hourglass-end fa-2x text-300"></i>');
+            $('#coinGiftBoxIcon-old').attr('style', 'display:block;');
+            $('#coinGiftBoxIcon-new').attr('style', 'display:none;');
+            //$('#coinGiftBoxIcon').html('<i class="fas fa-gift fa-2x text-300"></i>');
 
         }
         connecter.setCookie('fbStatus', 'inactive', 2);
     } else if (receivedMessage.type == 'INCREASE_MINUTE') {
         if (window.location.href.includes('/dashboard/index.html')) {
             setUserData();
-            $('#status').html('Bạn đang Online.');
-            $('#numOfTraversedTimeIcon').html('<img src="image/Hourglass_902x.gif" style="width: 40px; height: 40px;"/>');
-            $('#coinGiftBoxIcon').html('<img src="image/wait-coin-gift-box.gif" style="width: 40px; height: 40px;"/>');
-            connecter.setCookie('fbStatus', 'active', 2);
+            $('#status').html('Bạn đang Online. Bạn sẽ nhận được <strong>Hộp quà xu</strong> trong thời gian Online của mình.');
+            $('#numOfTraversedTimeIcon-old').attr('style', 'display:none;');
+            $('#numOfTraversedTimeIcon-new').attr('style', 'display:block;');
+            $('#coinGiftBoxIcon-old').attr('style', 'display:none;');
+            $('#coinGiftBoxIcon-new').attr('style', 'display:block;');
+            //$('#numOfTraversedTimeIcon').html('<img src="image/Hourglass_902x.gif" style="width: 40px; height: 40px;"/>');
+            //$('#coinGiftBoxIcon').html('<img src="image/wait-coin-gift-box.gif" style="width: 40px; height: 40px;"/>');
         }
+        connecter.setCookie('fbStatus', 'active', 3);
     } else if (receivedMessage.type == 'INCREASE_COIN_GIFT_BOX') {
         if (window.location.href.includes('/dashboard/index.html')) {
             setUserData();
             $('#status').html('Bạn đã nhận được 1 hộp quà xu.');
+            setTimeoutStatusBox();
         }
+        connecter.setCookie('fbStatus', 'active', 3);
     }
 
 
+}
+
+function createWSUrl(url, port) {
+    var baseUrl = location.href;
+    baseUrl = baseUrl.replace('http', 'ws');
+    var _countSlash = 0;
+    var newBaseUrl = '';
+    for (var i = 0; i < baseUrl.length; i++) {
+        if (baseUrl[i] == '/')
+            _countSlash++;
+
+        if (_countSlash != 3)
+            newBaseUrl += baseUrl[i];
+        else
+            break;
+    }
+
+    if (port == null)
+        port = 80;
+
+    return newBaseUrl + ':' + port + url;
 }
 
 var serverConnected = false;
 
 function listenFromServer() {
     // connect to server and subcribe channel
-    var socket = new SockJS(connecter.baseUrlAPI + '/ws');
-    stompClient = Stomp.over(socket);
+    var url = createWSUrl('/ws', 8083);
+    stompClient = Stomp.client(url);
     //stompClient.connect({}, onConnected, onError);
     stompClient.connect({}, function() {
         stompClient.subscribe('/channel/' + userDto.username, messageReceived);
         serverConnected = true;
+        if (location.href.includes('/dashboard/index.html') &&
+            connecter.getCookie('fbStatus') != 'active' &&
+            userDto.facebookLink != null && userDto.facebookLink != '') {
+            $('#status').html('Sẵn sàng làm việc.<br><button class="form-control" onclick="start();">Bắt đầu phiên làm việc</button><br><a href="../help/start-working-session.html"><strong>Hướng dẫn xác nhận bắt đầu phiên làm việc</strong></a>.');
+        }
 
     }, function() {
-        alert("Có lỗi xảy ra.");
+        alert("Có lỗi xảy ra hoặc bạn không còn Online nữa. Hãy tải lại trang.");
+        //listenFromServer();
     });
 }
 listenFromServer();
@@ -125,7 +163,9 @@ function logout() {
     connecter.setCookie('username', null, 1);
     connecter.setCookie('tokenCode', null, 1);
     connecter.setCookie('fbStatus', null, 1);
+    if (serverConnected)
+        sendStatus('FB_INACTIVE');
     var userDto = UserRequest.logout();
     if (userDto.httpStatus == "OK")
-        location.href = '/move_online/login/index.html';
+        location.href = '../../login/index.html';
 }

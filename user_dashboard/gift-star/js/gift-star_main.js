@@ -50,3 +50,13 @@ function exchangeCoinGiftBox() {
 function exchangeShirt() {
     alert("Không đủ số sao để đổi áo phong Move Online.");
 }
+
+
+function alert(content) {
+    $('#announcement-content').html(content);
+    $('#announcement').modal('show');
+}
+
+function closeAnnouncement() {
+    $('#announcement').modal('hide');
+}

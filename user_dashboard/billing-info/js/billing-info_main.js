@@ -1,5 +1,5 @@
 // script for all page
-$(function () {
+$(function() {
     // load silde bar and top bar
     $("#accordionSidebar").load("../../common/sidebar.html");
     $("#topbar").load("../../common/topbar.html", main);
@@ -26,7 +26,7 @@ function setUserInfo() {
         document.getElementById('phoneNumber').value = momoDto.phoneNumber;
         document.getElementById('name').value = momoDto.name;
     }
-
+    $('#loading-gif').attr('style', 'display:none;');
 }
 
 function main() {
@@ -34,12 +34,12 @@ function main() {
     setUserInfo();
 }
 
-$('.btn-momo-info-form').click(function (e) {
+$('.btn-momo-info-form').click(function(e) {
     document.getElementById("username").value = userDto.username;
     e.preventDefault();
     var data = {};
     var formData = $('.momo-info-form').serializeArray();
-    $.each(formData, function (i, v) {
+    $.each(formData, function(i, v) {
         data["" + v.name + ""] = v.value;
     });
 

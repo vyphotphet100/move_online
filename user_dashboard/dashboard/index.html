@@ -11,10 +11,10 @@
 
     <title>Move Online</title>
 
-
-    <!-- <script>
-        var userDto = connecter.authorization();
-    </script> -->
+    <div id="loading-div" style="position: fixed; left: 0px; top: 0px; width: 100%; height: 100%; z-index: 9999; background: center no-repeat #fff;">
+        <img src="../../common/loading2.gif" style="position: fixed; top: 50%; left: 50%;transform: translate(-50%, -50%);">
+    </div>
+    <script src="../../common/js/loading.js"></script>
 
     <!-- Custom fonts for this template-->
     <link href="../../common/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -56,7 +56,8 @@
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
                         <a onclick="copyReferralCode();" class="btn btn-primary">
-                            Mã giới thiệu: </a>
+                            <img src="../../common/loading.gif" style="width:20px;height:20px;">
+                        </a>
                     </div>
 
                     <!-- Content Row -->
@@ -72,7 +73,9 @@
                                             </div>
                                             <div class="row no-gutters align-items-center">
                                                 <div class="col-auto">
-                                                    <div id='status' class="h5 mb-0 mr-3 font-weight-bold text-gray-800"></div>
+                                                    <div id='status' class="h5 mb-0 mr-3 font-weight-bold text-gray-800">
+                                                        <img src="../../common/loading.gif" width="20px" height="20px">
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -87,14 +90,16 @@
                         </div>
 
                         <!-- Số xu Card Example -->
-                        <div id="numOfCoinBox" class="col-xl-5 col-md-6 mb-4">
+                        <div id="numOfCoinBox" class="col-xl-5 col-md-6 mb-4" onclick="numOfCoinHelp();">
                             <div class="card border-left-warning shadow h-100 py-2">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
                                                 Số xu</div>
-                                            <div id='numOfCoin' class="h5 mb-0 font-weight-bold text-gray-800">0</div>
+                                            <div id='numOfCoin' class="h5 mb-0 font-weight-bold text-gray-800">
+                                                <img src="../../common/loading.gif" style="width:20px;height:20px;">
+                                            </div>
                                         </div>
                                         <div class="col-auto">
                                             <span id="numOfCoinIcon" style="color: rgb(209, 209, 209);">
@@ -107,14 +112,15 @@
                         </div>
 
                         <!-- Thời gian còn lại Card Example -->
-                        <div id="numOfTimeBox" class="col-xl-4 col-md-6 mb-4">
+                        <div id="numOfTimeBox" class="col-xl-4 col-md-6 mb-4" onclick="numOfTimeHelp();">
                             <div class="card border-left-success shadow h-100 py-2">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                                 Thời gian còn lại</div>
-                                            <div id="numOfTime" class="h5 mb-0 font-weight-bold text-gray-800">0 phút
+                                            <div id="numOfTime" class="h5 mb-0 font-weight-bold text-gray-800">
+                                                <img src="../../common/loading.gif" style="width:20px;height:20px;">
                                             </div>
                                         </div>
                                         <div class="col-auto">
@@ -128,7 +134,7 @@
                         </div>
 
                         <!-- Thời gian đã online Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
+                        <div id="numOfTravelledTimeBox" class="col-xl-3 col-md-6 mb-4" onclick="numOfTravelledTimeHelp();">
                             <div class="card border-left-info shadow h-100 py-2">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
@@ -137,14 +143,16 @@
                                             </div>
                                             <div class="row no-gutters align-items-center">
                                                 <div class="col-auto">
-                                                    <div id='numOfTravelledTime' class="h5 mb-0 mr-3 font-weight-bold text-gray-800">0 phút</div>
+                                                    <div id='numOfTravelledTime' class="h5 mb-0 mr-3 font-weight-bold text-gray-800">
+                                                        <img src="../../common/loading.gif" style="width:20px;height:20px;">
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-auto">
                                             <span id="numOfTraversedTimeIcon" style="color: rgb(209, 209, 209);">
-                                                <i class="fas fa-hourglass-end fa-2x text-300"></i>
-                                                <!-- <img src="image/Hourglass_902x.gif" style="width: 50px; height: 50px;"/> -->
+                                                <i id="numOfTraversedTimeIcon-old" class="fas fa-hourglass-end fa-2x text-300" style="display:block;"></i>
+                                                <img id="numOfTraversedTimeIcon-new" src="image/Hourglass_902x.gif" width="40px" height="40px" style="display:none;"/>
                                             </span>
                                         </div>
                                     </div>
@@ -158,18 +166,20 @@
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Hộp quà xu
-                                            </div>
+                                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Hộp quà xu </div>
+                                            <div style="font-size: 10px;">Nhấn vào đây để mở hộp quà xu</div>
                                             <div class="row no-gutters align-items-center">
                                                 <div class="col-auto">
-                                                    <div id='numOfCoinGiftBox' class="h5 mb-0 mr-3 font-weight-bold text-gray-800">0 hộp</div>
+                                                    <div id='numOfCoinGiftBox' class="h5 mb-0 mr-3 font-weight-bold text-gray-800">
+                                                        <img src="../../common/loading.gif" style="width:20px;height:20px;">
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-auto">
                                             <span id="coinGiftBoxIcon" style="color: rgb(209, 209, 209);">
-                                                <i class="fas fa-gift fa-2x text-300"></i>
-                                                <!-- <img src="image/wait-coin-gift-box.gif" style="width: 40px; height: 40px;"/> -->
+                                                <i id="coinGiftBoxIcon-old" class="fas fa-gift fa-2x text-300" style="display:block;"></i>
+                                                <img id="coinGiftBoxIcon-new" src="image/wait-coin-gift-box.gif" width="40px" height="40px" style="display:none;"/>
                                             </span>
                                         </div>
                                     </div>
@@ -185,7 +195,9 @@
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                                 Hộp quà thời gian</div>
-                                            <div id='numOfTimeGiftBox' class="h5 mb-0 font-weight-bold text-gray-800">0 hộp
+                                            <div style="font-size: 10px;">Nhấn vào đây để mở hộp quà thời gian</div>
+                                            <div id='numOfTimeGiftBox' class="h5 mb-0 font-weight-bold text-gray-800">
+                                                <img src="../../common/loading.gif" style="width:20px;height:20px;">
                                             </div>
                                         </div>
                                         <div class="col-auto">
@@ -199,14 +211,15 @@
                         </div>
 
                         <!-- Sao Card Example -->
-                        <div href="#" class="col-xl-2 col-md-6 mb-4">
+                        <div onclick="location.href = '../gift-star/index.html';" class="col-xl-2 col-md-6 mb-4">
                             <div class="card border-left-warning shadow h-100 py-2">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
                                                 Sao</div>
-                                            <div id='numOfStar' class="h5 mb-0 font-weight-bold text-gray-800">0 sao
+                                            <div id='numOfStar' class="h5 mb-0 font-weight-bold text-gray-800">
+                                                <img src="../../common/loading.gif" style="width:20px;height:20px;">
                                             </div>
                                         </div>
                                         <div class="col-auto">
@@ -392,11 +405,11 @@
     </a>
 
     <!-- Announcement modal-->
-    <div class="modal fade" id="announcement-gift-box" tabindex="-1" aria-hidden="true" role="dialog">
+    <div class="modal fade" id="announcement" tabindex="-1" aria-hidden="true" role="dialog">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Thông báo</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Ghi chú</h5>
                 </div>
                 <div class="modal-body">
                     <div class="row g-3 needs-validation" novalidate>
@@ -405,7 +418,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="form-control" id="ok-btn">OK</button>
+                        <button type="button" class="form-control" id="ok-btn" onclick="closeAnnouncement();">OK</button>
                     </div>
                 </div>
             </div>
@@ -420,7 +433,6 @@
     <!-- Core plugin JavaScript-->
     <script src="../../common/vendor/jquery-easing/jquery.easing.min.js"></script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.4/sockjs.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 
     <!--=========================DTO================================-->

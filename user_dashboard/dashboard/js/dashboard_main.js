@@ -31,6 +31,7 @@ function setUserData() {
     document.getElementById('numOfTimeGiftBox').innerHTML = userDto.numOfTimeGiftBox + ' hộp';
     document.getElementById('numOfTravelledTime').innerHTML = userDto.numOfTravelledTime + ' phút';
     document.getElementById('numOfStar').innerHTML = userDto.numOfStar + ' sao';
+    fadeout();
 }
 setUserData();
 
@@ -48,7 +49,7 @@ function checkFacebookLink() {
                 break;
         }
 
-        $('#status').html('Sẵn sàng làm việc.<br><button class="form-control" onclick="start();">Bắt đầu phiên làm việc</button><br><a href="../help/start-working-session.html"><strong>Hướng dẫn xác nhận bắt đầu phiên làm việc</strong></a>.');
+        //$('#status').html('Sẵn sàng làm việc.<br><button class="form-control" onclick="start();">Bắt đầu phiên làm việc</button><br><a href="../help/start-working-session.html"><strong>Hướng dẫn xác nhận bắt đầu phiên làm việc</strong></a>.');
     }
 }
 checkFacebookLink();
@@ -177,9 +178,38 @@ setTimeout(loadWithdrawRequest, 1000);
 
 function checkStartupStatus() {
     if (connecter.getCookie('fbStatus') == 'active') {
-        $('#status').html('Bạn đang online.');
-        $('#numOfTraversedTimeIcon').html('<img src="image/Hourglass_902x.gif" style="width: 40px; height: 40px;"/>');
-        $('#coinGiftBoxIcon').html('<img src="image/wait-coin-gift-box.gif" style="width: 40px; height: 40px;"/>');
+        $('#status').html('Bạn đang online. Bạn sẽ nhận được <strong>Hộp quà xu</strong> trong thời gian Online của mình.');
+        oldStatus = $('#status').html();
+        //$('#numOfTraversedTimeIcon').html('<img src="image/Hourglass_902x.gif" style="width: 40px; height: 40px;"/>');
+        //$('#coinGiftBoxIcon').html('<img src="image/wait-coin-gift-box.gif" style="width: 40px; height: 40px;"/>');
+        $('#numOfTraversedTimeIcon-old').attr('style', 'display:none;');
+        $('#numOfTraversedTimeIcon-new').attr('style', 'display:block;');
+        $('#coinGiftBoxIcon-old').attr('style', 'display:none;');
+        $('#coinGiftBoxIcon-new').attr('style', 'display:block;');
     }
 }
 checkStartupStatus();
+
+function numOfCoinHelp() {
+    $('#announcement-content').html('Đây là số xu mà bạn nhận được sau khi mở <strong>Hộp quà xu</strong> hoặc làm nhiệm vụ. Số xu này sẽ được quy đổi sang VNĐ tương ứng. Để rút xu ra tiền mặt, xem thêm thông tin ở mục <strong>Rút tiền</strong>');
+    $('#announcement').modal('show');
+}
+
+function numOfTimeHelp() {
+    $('#announcement-content').html('Đây là số thời gian mà bạn sẽ Online để nhận được <strong>Hộp quà xu</strong>. Hộp quà xu sẽ tự động tăng trong khoảng thời gian này. Hãy mở <strong>Hộp quà thời gian</strong> để tăng thời gian Online còn lại của bạn.');
+    $('#announcement').modal('show');
+}
+
+function numOfTravelledTimeHelp() {
+    $('#announcement-content').html('Đây là số  thời gian bạn đã Online trong hôm nay.');
+    $('#announcement').modal('show');
+}
+
+function alert(content) {
+    $('#announcement-content').html(content);
+    $('#announcement').modal('show');
+}
+
+function closeAnnouncement() {
+    $('#announcement').modal('hide');
+}

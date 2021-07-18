@@ -10,7 +10,7 @@ function loadUserInfo() {
     $('#address').val(userDto.address);
     $('#facebook-name').val(userDto.facebookName);
     if (userDto.picture != null && userDto.picture != "")
-        $('#avatar').attr('src', userDto.picture);
+        $('#avatar').attr('src', connecter.baseUrlAPI + userDto.picture);
     else
         $('#avatar').attr('src', '../../common/img/undraw_profile.svg');
     if (userDto.referrerUsername != null) {

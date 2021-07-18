@@ -102,6 +102,6 @@
         document.getElementById('fullname').style.cssText = 'font-family: Times New Roman;';
     }
     if (userDto != null && userDto.picture != null) {
-        $('#avatar').attr('src', userDto.picture);
+        $('#avatar').attr('src', connecter.baseUrlAPI + userDto.picture);
     }
 </script>

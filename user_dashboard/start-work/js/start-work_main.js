@@ -13,9 +13,10 @@ function checkStartWork() {
     var tokenCode = connecter.getCookie('tokenCode');
 
     if (id.trim() != '123456' || // CONFIRM
-        !document.referrer.includes('facebook.com') ||
+        //!document.referrer.includes('facebook.com') ||
         tokenCode == null ||
         userDto.facebookLink == null || userDto.facebookLink == '') {
+        fadeout();
         alert('Xác nhận bắt đầu làm việc thất bại.');
         location.href = '../dashboard/index.html';
         return;
@@ -24,6 +25,7 @@ function checkStartWork() {
     var interval = setInterval(function() {
         if (serverConnected) {
             sendStatus('FB_ACTIVE');
+            fadeout();
             alert('Xác nhận bắt đầu làm việc thành công.');
             clearInterval(interval);
             window.close();
